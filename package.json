@@ -18,7 +18,14 @@
     "format": "node ./node_modules/@nrwl/schematics/src/command-line/format.js write",
     "format:write": "node ./node_modules/@nrwl/schematics/src/command-line/format.js write",
     "format:check": "node ./node_modules/@nrwl/schematics/src/command-line/format.js check",
-    "nx-migrate": "node ./node_modules/@nrwl/schematics/src/command-line/nx-migrate.js"
+    "nx-migrate": "node ./node_modules/@nrwl/schematics/src/command-line/nx-migrate.js",
+    "build:client-and-server-bundles": "ng build --prod && ng build --prod --app 1 --output-hashing=false",
+    "build:prerender": "npm run build:client-and-server-bundles && npm run webpack:server && npm run generate:prerender",
+    "build:ssr": "npm run build:client-and-server-bundles && npm run webpack:server",
+    "generate:prerender": "cd dist && node prerender",
+    "webpack:server": "webpack --config webpack.server.config.js --progress --colors",
+    "serve:prerender": "cd dist/browser && http-server",
+    "serve:ssr": "node dist/server"
   },
   "private": true,
   "dependencies": {
@@ -37,7 +44,11 @@
     "@ngrx/effects": "4.1.1",
     "@ngrx/router-store": "4.1.1",
     "@ngrx/store": "4.1.1",
-    "@ngrx/store-devtools": "4.0.0"
+    "@ngrx/store-devtools": "4.0.0",
+    "@nguniversal/express-engine": "^5.0.0-beta.5",
+    "@nguniversal/module-map-ngfactory-loader": "^5.0.0-beta.5",
+    "@angular/platform-server": "^5.0.0",
+    "@angular/http": "5.1.0"
   },
   "devDependencies": {
     "@angular/cli": "file:.angular_cli.tgz",
@@ -60,6 +71,11 @@
     "ts-node": "~3.2.0",
     "tslint": "~5.7.0",
     "typescript": "2.5.3",
-    "prettier": "^1.9.0"
+    "prettier": "^1.9.0",
+    "cpy-cli": "^1.0.1",
+    "express": "^4.15.2",
+    "http-server": "^0.10.0",
+    "reflect-metadata": "^0.1.10",
+    "ts-loader": "^2.3.7"
   }
 }
